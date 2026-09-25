@@ -858,6 +858,38 @@ function InlineMonthCalendar({
   );
 }
 
+// Razorpay checkout.js global typings (loaded lazily from the CDN script).
+declare global {
+  interface Window {
+    Razorpay?: any;
+  }
+}
+
+// Lazily inject the Razorpay checkout.js script exactly once.
+function loadRazorpayScript(): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (typeof window === "undefined") return resolve();
+    if (window.Razorpay) return resolve();
+    if (document.getElementById("razorpay-checkout-js")) {
+      // Script tag already there but still loading — wait for it.
+      const t = setInterval(() => {
+        if (window.Razorpay) {
+          clearInterval(t);
+          resolve();
+        }
+      }, 50);
+      return;
+    }
+    const s = document.createElement("script");
+    s.id = "razorpay-checkout-js";
+    s.src = "https://checkout.razorpay.com/v1/checkout.js";
+    s.async = true;
+    s.onload = () => resolve();
+    s.onerror = () => reject(new Error("Failed to load Razorpay checkout script"));
+    document.head.appendChild(s);
+  });
+}
+
 function BuyButton({
   planId,
   planName,
@@ -879,7 +911,7 @@ function BuyButton({
   async function buy() {
     setLoading(true);
     try {
-      // 1. Create a payment record
+      // 1. Create a payment record / Razorpay order on the backend.
       const res = await fetch("/api/payments/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -894,7 +926,72 @@ function BuyButton({
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed");
 
-      // 2. Verify (mock payment — in production this would redirect to Razorpay)
+      // 2a. Real Razorpay flow — open the checkout.js modal.
+      if (data.mode === "razorpay" && data.orderId && data.keyId) {
+        await loadRazorpayScript();
+        await new Promise<void>((resolve, reject) => {
+          const rzp = new window.Razorpay({
+            key: data.keyId,
+            amount: data.amount * 100, // paise
+            currency: data.currency || "INR",
+            name: "Arcwave Pilates",
+            description: planName,
+            order_id: data.orderId,
+            prefill: {
+              name: user.name,
+              email: user.email,
+              contact: user.phone,
+            },
+            theme: { color: "#0d9488" },
+            handler: async (response: any) => {
+              try {
+                const res2 = await fetch("/api/payments/verify", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({
+                    paymentId: data.paymentId,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_signature: response.razorpay_signature,
+                  }),
+                });
+                const data2 = await res2.json();
+                if (!res2.ok) throw new Error(data2.error || "Payment verification failed");
+
+                toast({
+                  title: "Payment successful!",
+                  description: `${planName} activated. Choose your slots next.`,
+                });
+                if (onDone) {
+                  onDone(data2.membershipId || null);
+                } else {
+                  setTimeout(() => {
+                    window.location.href = "/account";
+                  }, 1200);
+                }
+                resolve();
+              } catch (e: any) {
+                toast({ title: e.message || "Payment verification failed", variant: "destructive" });
+                reject(e);
+              }
+            },
+            modal: {
+              ondismiss: () => reject(new Error("Payment cancelled")),
+            },
+          });
+          rzp.on("payment.failed", (resp: any) => {
+            reject(
+              new Error(
+                (resp?.error?.description) || "Payment failed. Please try again."
+              )
+            );
+          });
+          rzp.open();
+        });
+        return;
+      }
+
+      // 2b. Mock fallback — keys not configured yet (auto-success for dev).
       const res2 = await fetch("/api/payments/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

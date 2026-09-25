@@ -1,27 +1,31 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/audit";
+import { isRazorpayConfigured, verifySignature } from "@/lib/razorpay";
 
 export const runtime = "nodejs";
 
 /**
- * Verify (mark as success) a mock payment.
- * If the payment was for a membership, the linked Membership is set to
- * status="active". An in-app NotificationLog entry is also created.
+ * Verify a payment.
  *
- * Carry-forward (renewal) logic:
- *  When creating a brand-new membership from a plan purchase, look at the
- *  user's most recent previous membership. If it is currently active but
- *  close to expiry (endDate within the next 30 days) OR has expired within
- *  the last 30 days, the unused sessions (totalClasses + bonusClasses -
- *  usedClasses, capped by the new plan's `carryForward` policy) are added
- *  to the new membership's totalClasses. The carried-forward amount is
- *  recorded in the membership's `notes` field and the previous membership
- *  is marked as "expired" so it can no longer be drawn down accidentally.
+ * — When Razorpay keys are configured, this expects the Razorpay checkout.js
+ *   response: { paymentId, razorpay_payment_id, razorpay_order_id,
+ *   razorpay_signature }. The signature is verified with HMAC SHA256 using
+ *   the Key Secret. Only verified payments are marked "success".
+ * — When keys are NOT configured, this falls back to MOCK mode: any
+ *   { paymentId } is auto-verified (the original dev behaviour).
+ *
+ * After a successful verification, the rest of the carry-forward / membership
+ * activation logic from the original implementation runs unchanged.
  */
 export async function POST(req: NextRequest) {
   try {
     const b = (await req.json()) as {
       paymentId?: string;
+      // Razorpay checkout.js response fields:
+      razorpay_payment_id?: string;
+      razorpay_order_id?: string;
+      razorpay_signature?: string;
+      // Mock-mode legacy field:
       gatewayTxnId?: string;
     };
     if (!b.paymentId) {
@@ -33,15 +37,42 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Payment not found" }, { status: 404 });
     }
 
+    // ----- Razorpay signature verification -----
+    if (isRazorpayConfigured() && existing.gateway === "razorpay") {
+      const ok = verifySignature({
+        orderId: b.razorpay_order_id ?? existing.gatewayTxnId,
+        paymentId: b.razorpay_payment_id,
+        signature: b.razorpay_signature,
+      });
+      if (!ok) {
+        // Mark the payment as failed and bail.
+        await db.payment.update({
+          where: { id: existing.id },
+          data: { status: "failed" },
+        });
+        return NextResponse.json(
+          { error: "Payment signature verification failed" },
+          { status: 400 }
+        );
+      }
+    }
+
     const invoiceUrl = `/invoices/${existing.id}`;
 
     let newMembershipId: string | null = null;
     let carryForwardApplied = 0;
+
+    const gatewayTxnId =
+      b.razorpay_payment_id ||
+      b.gatewayTxnId ||
+      existing.gatewayTxnId ||
+      `mock_${Date.now()}`;
+
     const payment = await db.payment.update({
       where: { id: existing.id },
       data: {
         status: "success",
-        gatewayTxnId: b.gatewayTxnId || existing.gatewayTxnId || `mock_${Date.now()}`,
+        gatewayTxnId,
         invoiceUrl,
       },
     });
@@ -65,9 +96,6 @@ export async function POST(req: NextRequest) {
         end.setMonth(end.getMonth() + plan.durationMonths);
 
         // ----- Carry-forward candidate lookup -----
-        // A previous membership qualifies for carry-forward if its endDate is
-        // within ±30 days of today (i.e. active-but-close-to-expiry OR
-        // expired-within-the-last-30-days).
         const todayISO = start.toISOString().slice(0, 10);
         const thirtyDaysAgo = new Date(start);
         thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -104,11 +132,6 @@ export async function POST(req: NextRequest) {
         }
 
         // ----- Duplicate guard -----
-        // Only block creation if there is already an active membership for
-        // the SAME plan that is NOT close to expiry (endDate more than 30
-        // days from now). Otherwise this is either a fresh purchase or a
-        // legitimate renewal, and we should create a new membership (with
-        // any carried-forward credits applied).
         const blockingExisting = await db.membership.findFirst({
           where: {
             OR: [
@@ -124,10 +147,6 @@ export async function POST(req: NextRequest) {
         if (blockingExisting) {
           newMembershipId = blockingExisting.id;
         } else {
-          // Effective total = plan's class count + carried-forward credits.
-          // Bonus classes are stored separately so the dashboard can display
-          // them as a distinct line item (and so totalClasses + bonusClasses
-          // equals the effective pool of sessions).
           const newTotalClasses = plan.totalClasses + carryForwardCount;
           const notes =
             carryForwardCount > 0
@@ -155,8 +174,6 @@ export async function POST(req: NextRequest) {
             },
           });
 
-          // Link the freshly created membership to this payment so the
-          // slot-locking step (next screen) can use the membership id.
           await db.payment.update({
             where: { id: payment.id },
             data: { membershipId: created.id },
@@ -164,8 +181,6 @@ export async function POST(req: NextRequest) {
           newMembershipId = created.id;
           carryForwardApplied = carryForwardCount;
 
-          // Mark the previous membership as expired so it is no longer
-          // considered "active" for credit deduction / display purposes.
           if (previousMembershipId && previousMembershipId !== created.id) {
             try {
               await db.membership.update({

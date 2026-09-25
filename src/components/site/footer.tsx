@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Instagram, MapPin } from "lucide-react";
 
 export function Footer({
@@ -62,6 +63,42 @@ export function Footer({
             >
               Book a session
             </a>
+
+            {/* Policies */}
+            <div className="mt-2 flex flex-col items-center gap-2 md:items-end">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground/70">
+                Policies
+              </p>
+              <nav
+                aria-label="Policies"
+                className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-sm md:justify-end"
+              >
+                <Link
+                  href="/terms"
+                  className="inline-flex min-h-[44px] items-center text-muted-foreground transition-colors hover:text-teal"
+                >
+                  Terms &amp; Conditions
+                </Link>
+                <span aria-hidden className="text-muted-foreground/40">
+                  ·
+                </span>
+                <Link
+                  href="/privacy"
+                  className="inline-flex min-h-[44px] items-center text-muted-foreground transition-colors hover:text-teal"
+                >
+                  Privacy Policy
+                </Link>
+                <span aria-hidden className="text-muted-foreground/40">
+                  ·
+                </span>
+                <Link
+                  href="/refund-policy"
+                  className="inline-flex min-h-[44px] items-center text-muted-foreground transition-colors hover:text-teal"
+                >
+                  Refund Policy
+                </Link>
+              </nav>
+            </div>
           </div>
         </div>
 

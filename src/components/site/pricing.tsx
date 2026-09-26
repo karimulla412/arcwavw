@@ -95,7 +95,7 @@ export function Pricing({ plans }: { plans: Plan[] }) {
                   </span>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-6">
                   <BookButton planId={p.id} />
                 </div>
               </div>

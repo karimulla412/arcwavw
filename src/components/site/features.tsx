@@ -53,7 +53,7 @@ export function Features() {
   return (
     <section
       id="studio"
-      className="relative min-h-screen w-full overflow-hidden bg-paper px-4 py-20 md:px-8 md:py-28 lg:px-12"
+      className="relative w-full overflow-hidden bg-paper px-4 py-20 md:px-8 md:py-28 lg:px-12"
     >
       <div className="bg-noise pointer-events-none absolute inset-0 opacity-15" />
 
@@ -72,7 +72,7 @@ export function Features() {
           </div>
         </h2>
 
-        <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-2 md:gap-1 lg:grid-cols-4">
+        <div className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-4 md:gap-5 lg:grid-cols-4 lg:gap-6">
           {CARDS.map((card, i) => (
             <FeatureCard key={i} card={card} index={i} />
           ))}

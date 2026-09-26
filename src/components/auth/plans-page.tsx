@@ -273,7 +273,7 @@ export function PlansPage({
                   </span>
                 </div>
 
-                <div className="mt-8">
+                <div className="mt-6">
                   <BuyButton
                     planId={p.id}
                     planName={p.name}
@@ -449,45 +449,45 @@ function SlotSelection({
   const eveningSlots = available.filter((s) => getTimeOfDay(s.startTime) === "evening");
 
   return (
-    <div className="mx-auto min-h-screen max-w-md bg-gray-50 md:max-w-4xl relative pb-20">
+    <div className="mx-auto min-h-screen max-w-[1400px] bg-paper relative pb-20">
       {/* Top Header */}
       <div className="p-5">
         <div className="flex items-center justify-between">
           <div>
             <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-teal">Payment confirmed</p>
-            <p className="mt-1 text-lg font-bold text-gray-900">{selectedDayLabel}</p>
+            <p className="mt-1 text-lg font-bold text-ink">{selectedDayLabel}</p>
           </div>
           <div className="flex gap-2">
             <button
               onClick={() => setWeekOffset((w) => Math.max(0, w - 1))}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white2 shadow-sm hover:bg-muted"
             >
-              <ChevronLeft className="h-5 w-5 text-gray-700" />
+              <ChevronLeft className="h-5 w-5 text-ink" />
             </button>
             <button
               onClick={() => setWeekOffset((w) => w + 1)}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-white shadow-sm hover:bg-gray-100"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-white2 shadow-sm hover:bg-muted"
             >
-              <ChevronRight className="h-5 w-5 text-gray-700" />
+              <ChevronRight className="h-5 w-5 text-ink" />
             </button>
           </div>
         </div>
 
         {/* Welcome card */}
-        <div className="mt-4 rounded-2xl bg-white p-4 shadow-sm">
+        <div className="mt-4 rounded-2xl bg-white2 p-4 shadow-sm">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-800 text-white">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-teal text-white">
               <Check className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-sm font-semibold text-gray-900">Welcome, {userName.split(" ")[0]}!</p>
-              <p className="text-xs text-gray-500">{plan.name} is active · {classesPerWeek} sessions/week</p>
+              <p className="text-sm font-semibold text-ink">Welcome, {userName.split(" ")[0]}!</p>
+              <p className="text-xs text-muted-foreground">{plan.name} is active · {classesPerWeek} sessions/week</p>
             </div>
           </div>
         </div>
 
         {/* Free choice notice */}
-        <div className="mt-3 rounded-xl bg-emerald-50 px-4 py-2.5 text-xs text-emerald-800">
+        <div className="mt-3 rounded-xl bg-teal/10 px-4 py-2.5 text-xs text-teal">
           Pick as many or as few slots as you like now — you can book the rest anytime from your dashboard.
         </div>
       </div>
@@ -505,14 +505,14 @@ function SlotSelection({
               key={iso}
               onClick={() => setSelectedDate(iso)}
               className={`flex flex-1 flex-col items-center rounded-2xl p-3 shadow-sm transition-all cursor-pointer ${
-                isSelected ? "bg-black text-white" : "bg-white text-gray-900 hover:bg-gray-50"
+                isSelected ? "bg-ink text-white" : "bg-white2 text-ink hover:bg-paper"
               }`}
             >
-              <p className={`text-xs font-medium uppercase tracking-wider ${isSelected ? "text-white/70" : "text-gray-400"}`}>
+              <p className={`text-xs font-medium uppercase tracking-wider ${isSelected ? "text-white/70" : "text-muted-foreground"}`}>
                 {isToday ? "TODAY" : DAY_SHORT[dow]}
               </p>
               <p className="mt-1 text-2xl font-bold">{d.getDate()}</p>
-              <p className={`mt-0.5 text-[10px] ${isSelected ? "text-white/60" : "text-gray-400"}`}>
+              <p className={`mt-0.5 text-[10px] ${isSelected ? "text-white/60" : "text-muted-foreground"}`}>
                 {sessionCount > 0 ? `${sessionCount} sessions` : "Quiet"}
               </p>
             </button>
@@ -522,18 +522,18 @@ function SlotSelection({
 
       {/* Selected slots summary */}
       {selected.length > 0 && (
-        <div className="mx-5 mb-4 rounded-2xl bg-white p-4 shadow-sm">
+        <div className="mx-5 mb-4 rounded-2xl bg-white2 p-4 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs font-medium uppercase tracking-wider text-gray-400">Your selection</p>
-              <p className="mt-1 text-sm font-semibold text-gray-900">
+              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Your selection</p>
+              <p className="mt-1 text-sm font-semibold text-ink">
                 {selected.length} slot{selected.length > 1 ? "s" : ""} picked
               </p>
               <ul className="mt-2 space-y-1">
                 {selected.map((s, i) => (
-                  <li key={`${s.id}-${s.selectedDate}-${i}`} className="flex items-center gap-2 text-xs text-gray-600">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-gray-900 text-[10px] font-semibold text-white">{i + 1}</span>
-                    <span className="font-medium text-gray-900">{s.className}</span>
+                  <li key={`${s.id}-${s.selectedDate}-${i}`} className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-teal text-[10px] font-semibold text-white">{i + 1}</span>
+                    <span className="font-medium text-ink">{s.className}</span>
                     <span>· {DAY_LABELS[s.dayOfWeek]?.slice(0, 3)} {formatTime(s.startTime)}</span>
                   </li>
                 ))}
@@ -542,7 +542,7 @@ function SlotSelection({
             <button
               onClick={confirm}
               disabled={confirming}
-              className="flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-black px-5 text-xs font-semibold text-white hover:opacity-90 disabled:opacity-50"
+              className="flex h-10 shrink-0 items-center gap-1.5 rounded-full bg-ink px-5 text-xs font-semibold text-white hover:opacity-90 disabled:opacity-50"
             >
               {confirming ? "Locking…" : `Confirm ${selected.length > 0 ? selected.length : ""} slot${selected.length > 1 ? "s" : ""}`}
               {!confirming && <ArrowRight className="h-3.5 w-3.5" />}
@@ -554,20 +554,20 @@ function SlotSelection({
       {/* Loading / empty states */}
       {loadingSlots ? (
         <div className="flex flex-col items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-gray-900" />
-          <p className="mt-3 text-sm text-gray-400">Loading sessions…</p>
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-teal" />
+          <p className="mt-3 text-sm text-muted-foreground">Loading sessions…</p>
         </div>
       ) : available.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 px-5 text-center">
-          <CalendarDays className="h-12 w-12 text-gray-300" />
-          <p className="mt-3 text-sm text-gray-400">No classes scheduled for this day.</p>
+          <CalendarDays className="h-12 w-12 text-muted-foreground" />
+          <p className="mt-3 text-sm text-muted-foreground">No classes scheduled for this day.</p>
         </div>
       ) : (
         <div className="px-5">
           {/* Morning */}
           {morningSlots.length > 0 && (
             <>
-              <p className="mb-3 text-xs font-medium uppercase tracking-widest text-gray-400">MORNING</p>
+              <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">MORNING</p>
               <div className="grid gap-3 md:grid-cols-2">
                 {morningSlots.map((s) => (
                   <SlotSelectionCard key={`${s.id}`} slot={s} selected={selected} selectedDate={selectedDate} onToggle={() => toggleSlot(s)} />
@@ -578,7 +578,7 @@ function SlotSelection({
           {/* Afternoon */}
           {afternoonSlots.length > 0 && (
             <>
-              <p className="mb-3 mt-5 text-xs font-medium uppercase tracking-widest text-gray-400">AFTERNOON</p>
+              <p className="mb-3 mt-5 text-xs font-medium uppercase tracking-widest text-muted-foreground">AFTERNOON</p>
               <div className="grid gap-3 md:grid-cols-2">
                 {afternoonSlots.map((s) => (
                   <SlotSelectionCard key={`${s.id}`} slot={s} selected={selected} selectedDate={selectedDate} onToggle={() => toggleSlot(s)} />
@@ -589,7 +589,7 @@ function SlotSelection({
           {/* Evening */}
           {eveningSlots.length > 0 && (
             <>
-              <p className="mb-3 mt-5 text-xs font-medium uppercase tracking-widest text-gray-400">EVENING</p>
+              <p className="mb-3 mt-5 text-xs font-medium uppercase tracking-widest text-muted-foreground">EVENING</p>
               <div className="grid gap-3 md:grid-cols-2">
                 {eveningSlots.map((s) => (
                   <SlotSelectionCard key={`${s.id}`} slot={s} selected={selected} selectedDate={selectedDate} onToggle={() => toggleSlot(s)} />
@@ -604,34 +604,34 @@ function SlotSelection({
       <div className="mt-8 px-5 text-center">
         <Link
           href="/account"
-          className="inline-flex h-11 items-center rounded-full border border-gray-200 bg-white px-6 text-sm font-medium text-gray-500 hover:bg-gray-50"
+          className="inline-flex h-11 items-center rounded-full border border-line bg-white2 px-6 text-sm font-medium text-muted-foreground hover:bg-paper"
         >
           Skip and choose later
         </Link>
       </div>
 
       {/* Bottom Navigation Bar */}
-      <div className="fixed bottom-0 left-1/2 z-40 w-full max-w-md -translate-x-1/2 border-t border-gray-100 bg-white">
+      <div className="fixed bottom-0 left-1/2 z-40 w-full max-w-[1400px] -translate-x-1/2 border-t border-line bg-white2">
         <div className="flex items-center justify-around px-2 py-2">
           <a href="/" className="flex cursor-pointer flex-col items-center gap-1 px-3 py-1.5">
-            <Home className="h-5 w-5 text-gray-400" />
-            <span className="text-[10px] font-medium text-gray-400">Home</span>
+            <Home className="h-5 w-5 text-muted-foreground" />
+            <span className="text-[10px] font-medium text-muted-foreground">Home</span>
           </a>
-          <a href="/book" className="flex cursor-pointer flex-col items-center gap-1 rounded-full bg-black px-3 py-1.5">
+          <a href="/book" className="flex cursor-pointer flex-col items-center gap-1 rounded-full bg-ink px-3 py-1.5">
             <CalendarDays className="h-5 w-5 text-white" />
             <span className="text-[10px] font-medium text-white">Sessions</span>
           </a>
           <a href="/account" className="flex cursor-pointer flex-col items-center gap-1 px-3 py-1.5">
-            <CalendarCheck className="h-5 w-5 text-gray-400" />
-            <span className="text-[10px] font-medium text-gray-400">Bookings</span>
+            <CalendarCheck className="h-5 w-5 text-muted-foreground" />
+            <span className="text-[10px] font-medium text-muted-foreground">Bookings</span>
           </a>
           <a href="/plans" className="flex cursor-pointer flex-col items-center gap-1 px-3 py-1.5">
-            <CreditCard className="h-5 w-5 text-gray-400" />
-            <span className="text-[10px] font-medium text-gray-400">Membership</span>
+            <CreditCard className="h-5 w-5 text-muted-foreground" />
+            <span className="text-[10px] font-medium text-muted-foreground">Membership</span>
           </a>
           <a href="/account/profile" className="flex cursor-pointer flex-col items-center gap-1 px-3 py-1.5">
-            <User className="h-5 w-5 text-gray-400" />
-            <span className="text-[10px] font-medium text-gray-400">Profile</span>
+            <User className="h-5 w-5 text-muted-foreground" />
+            <span className="text-[10px] font-medium text-muted-foreground">Profile</span>
           </a>
         </div>
       </div>
@@ -667,28 +667,28 @@ function SlotSelectionCard({
 
   return (
     <div className={`rounded-2xl p-5 shadow-sm transition-all ${
-      isSel ? "bg-black text-white" : "bg-white"
+      isSel ? "bg-ink text-white" : "bg-white2"
     }`}>
       {/* Top row */}
       <div className="flex items-center justify-between">
-        <p className={`text-xl font-bold ${isSel ? "text-white" : "text-gray-900"}`}>{formatTime(slot.startTime)}</p>
-        <p className={`text-sm ${isSel ? "text-white/60" : "text-gray-400"}`}>{duration}</p>
+        <p className={`text-xl font-bold ${isSel ? "text-white" : "text-ink"}`}>{formatTime(slot.startTime)}</p>
+        <p className={`text-sm ${isSel ? "text-white/60" : "text-muted-foreground"}`}>{duration}</p>
       </div>
 
       {/* Tags */}
       <div className="mt-3 flex items-center gap-2">
         <span className={`rounded-full px-3 py-1 text-[10px] font-semibold uppercase tracking-wider ${
-          isSel ? "bg-white/20 text-white" : "bg-emerald-800 text-white"
+          isSel ? "bg-white/20 text-white" : "bg-teal text-white"
         }`}>
           {slot.sessionType === "private" ? "PRIVATE" : "GROUP"}
         </span>
         {isAlmostFull && !isSel && (
-          <span className="rounded-full bg-gray-100 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-gray-600">
+          <span className="rounded-full bg-muted px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
             ALMOST FULL
           </span>
         )}
         {isFull && !isSel && (
-          <span className="rounded-full bg-red-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-red-500">
+          <span className="rounded-full bg-destructive/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-destructive">
             FULL
           </span>
         )}
@@ -697,11 +697,11 @@ function SlotSelectionCard({
       {/* Bottom */}
       <div className="mt-4 flex items-end justify-between">
         <div className="flex-1">
-          <p className={`text-sm ${isSel ? "text-white/60" : "text-gray-400"}`}>1 credit</p>
-          <p className={`mt-0.5 text-sm font-medium ${isSel ? "text-white/80" : "text-gray-700"}`}>{slot.booked} of {slot.capacity} booked</p>
-          <div className={`mt-2 h-1.5 w-full rounded-full ${isSel ? "bg-white/20" : "bg-gray-200"}`}>
+          <p className={`text-sm ${isSel ? "text-white/60" : "text-muted-foreground"}`}>1 credit</p>
+          <p className={`mt-0.5 text-sm font-medium ${isSel ? "text-white/80" : "text-ink"}`}>{slot.booked} of {slot.capacity} booked</p>
+          <div className={`mt-2 h-1.5 w-full rounded-full ${isSel ? "bg-white/20" : "bg-muted"}`}>
             <div
-              className={`h-full rounded-full ${isFull ? "bg-red-500" : isSel ? "bg-white" : "bg-emerald-700"}`}
+              className={`h-full rounded-full ${isFull ? "bg-destructive" : isSel ? "bg-white2" : "bg-teal"}`}
               style={{ width: progressWidth }}
             />
           </div>
@@ -711,8 +711,8 @@ function SlotSelectionCard({
             onClick={onToggle}
             className={`ml-4 flex h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-5 text-xs font-semibold transition-all ${
               isSel
-                ? "bg-white text-black hover:opacity-90"
-                : "bg-black text-white hover:opacity-90"
+                ? "bg-white2 text-black hover:opacity-90"
+                : "bg-ink text-white hover:opacity-90"
             }`}
           >
             {isSel ? (
@@ -728,7 +728,7 @@ function SlotSelectionCard({
             )}
           </button>
         ) : (
-          <div className="ml-4 flex h-10 shrink-0 items-center rounded-full bg-gray-100 px-5 text-xs font-semibold text-gray-400">
+          <div className="ml-4 flex h-10 shrink-0 items-center rounded-full bg-muted px-5 text-xs font-semibold text-muted-foreground">
             Full
           </div>
         )}

@@ -168,7 +168,7 @@ function AuthPromptCard({
   href?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-line bg-white2 p-8 text-center md:p-12">
+    <div className="rounded-2xl border border-line bg-white2 p-6 text-center sm:p-8 md:p-10">
       <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-teal/10">
         <Lock className="h-7 w-7 text-teal" />
       </div>

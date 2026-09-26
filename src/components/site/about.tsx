@@ -36,11 +36,11 @@ export function About({
           />
         </h2>
 
-        <p className="mx-auto mt-10 max-w-2xl text-sm leading-relaxed text-ink/80 sm:text-base md:text-lg">
+        <p className="mx-auto mt-8 max-w-2xl text-sm leading-relaxed text-ink/80 sm:text-base md:text-lg">
           {aboutDesc}
         </p>
 
-        <div className="mx-auto mt-14 flex max-w-4xl flex-col items-center gap-10 md:flex-row md:items-stretch md:justify-center">
+        <div className="mx-auto mt-10 flex max-w-4xl flex-col items-center gap-6 md:mt-14 md:flex-row md:items-stretch md:justify-center md:gap-10">
           <div className="relative w-full max-w-xs overflow-hidden rounded-2xl">
             <img
               src="/images/arcwave-04.png"

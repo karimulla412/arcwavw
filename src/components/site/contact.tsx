@@ -64,7 +64,7 @@ export function Contact() {
       className="relative w-full overflow-hidden bg-paper px-4 py-20 md:px-8 md:py-28 lg:px-12"
     >
       <div className="mx-auto max-w-[1400px]">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-12">
           {/* LEFT — copy + quick actions + studio info */}
           <div className="flex flex-col">
             <p className="text-[10px] font-semibold uppercase tracking-[0.3em] text-teal sm:text-xs">

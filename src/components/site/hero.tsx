@@ -198,7 +198,7 @@ export function Hero({
                   className="group inline-flex h-11 items-center gap-2 rounded-full bg-teal px-4 text-xs font-medium text-white transition-all hover:gap-3 sm:h-12 sm:px-6 sm:text-base"
                 >
                   Book a trial
-                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-paper transition-transform group-hover:scale-110 sm:h-9 sm:w-9 sm:h-10 sm:w-10">
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-paper transition-transform group-hover:scale-110 sm:h-10 sm:w-10">
                     <ArrowRight className="h-3.5 w-3.5 text-teal sm:h-4 sm:w-4" />
                   </span>
                 </a>

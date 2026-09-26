@@ -246,7 +246,7 @@ export function MemberDashboard({
   }
 
   return (
-    <section className="relative min-h-[100svh] bg-paper">
+    <section className="relative bg-paper">
       <div className="pointer-events-none absolute -left-32 top-0 h-80 w-80 rounded-full bg-lime/30 blur-[140px]" />
       <div className="pointer-events-none absolute -right-24 top-40 h-72 w-72 rounded-full bg-teal/10 blur-[120px]" />
 
@@ -347,14 +347,14 @@ export function MemberDashboard({
           {/* ---------- Two prominent tracking cards ---------- */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {/* Slots booked & remaining */}
-            <div className="relative overflow-hidden rounded-2xl bg-black p-6 text-white">
-              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/5 blur-3xl" />
+            <div className="relative overflow-hidden rounded-2xl bg-ink p-6 text-paper">
+              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-paper/5 blur-3xl" />
               <div className="relative">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/10">
-                    <CalendarDays className="h-5 w-5 text-white" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-paper/10">
+                    <CalendarDays className="h-5 w-5 text-paper" />
                   </div>
-                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/60">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-paper/60">
                     Slots booked & remaining
                   </p>
                 </div>
@@ -362,17 +362,17 @@ export function MemberDashboard({
                   <>
                     <div className="mt-4 flex items-baseline gap-2">
                       <span className="text-4xl font-bold leading-none">{remaining}</span>
-                      <span className="text-sm text-white/60">of {totalAllowed} remaining</span>
+                      <span className="text-sm text-paper/60">of {totalAllowed} remaining</span>
                     </div>
-                    <p className="mt-2 text-xs text-white/70">
+                    <p className="mt-2 text-xs text-paper/70">
                       {used} booked · {remaining} available
                     </p>
                     {/* Progress bar */}
-                    <div className="mt-3 h-2 w-full rounded-full bg-white/10">
-                      <div className="h-full rounded-full bg-white" style={{ width: `${totalAllowed > 0 ? (used / totalAllowed) * 100 : 0}%` }} />
+                    <div className="mt-3 h-2 w-full rounded-full bg-paper/10">
+                      <div className="h-full rounded-full bg-lime" style={{ width: `${totalAllowed > 0 ? (used / totalAllowed) * 100 : 0}%` }} />
                     </div>
                     {carryForwardCount > 0 && (
-                      <p className="mt-2 text-[10px] text-white/50">
+                      <p className="mt-2 text-[10px] text-paper/50">
                         +{carryForwardCount} carried forward
                       </p>
                     )}
@@ -381,21 +381,21 @@ export function MemberDashboard({
                   <>
                     <div className="mt-4 flex items-baseline gap-2">
                       <span className="text-4xl font-bold leading-none">0</span>
-                      <span className="text-sm text-white/60">sessions</span>
+                      <span className="text-sm text-paper/60">sessions</span>
                     </div>
-                    <p className="mt-2 text-xs text-white/60">Get a membership to start booking.</p>
+                    <p className="mt-2 text-xs text-paper/60">Get a membership to start booking.</p>
                   </>
                 )}
               </div>
             </div>
 
             {/* Classes attended */}
-            <div className="relative overflow-hidden rounded-2xl bg-white p-6 shadow-sm">
+            <div className="relative overflow-hidden rounded-2xl bg-white2 p-6 shadow-sm border border-line">
               <div className="flex items-center gap-2">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-800/10">
-                  <Check className="h-5 w-5 text-emerald-800" />
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-teal/10">
+                  <Check className="h-5 w-5 text-teal" />
                 </div>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-gray-400">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                   Classes attended
                 </p>
               </div>
@@ -405,20 +405,20 @@ export function MemberDashboard({
                 return (
                   <>
                     <div className="mt-4 flex items-baseline gap-2">
-                      <span className="text-4xl font-bold leading-none text-gray-900">{attendedCount}</span>
-                      <span className="text-sm text-gray-400">classes attended</span>
+                      <span className="text-4xl font-bold leading-none text-ink">{attendedCount}</span>
+                      <span className="text-sm text-muted-foreground">classes attended</span>
                     </div>
-                    <p className="mt-2 text-xs text-gray-500">
+                    <p className="mt-2 text-xs text-muted-foreground">
                       {totalBooked - attendedCount} upcoming / pending
                     </p>
                     {/* Progress bar */}
-                    <div className="mt-3 h-2 w-full rounded-full bg-gray-100">
+                    <div className="mt-3 h-2 w-full rounded-full bg-muted">
                       <div
-                        className="h-full rounded-full bg-emerald-800"
+                        className="h-full rounded-full bg-teal"
                         style={{ width: `${totalBooked > 0 ? (attendedCount / totalBooked) * 100 : 0}%` }}
                       />
                     </div>
-                    <p className="mt-2 text-[10px] text-gray-400">
+                    <p className="mt-2 text-[10px] text-muted-foreground">
                       {totalBooked} total bookings
                     </p>
                   </>

@@ -17,7 +17,7 @@ export default function RefundPolicyPage() {
           A full refund and cancellation policy will be published here
           before any paid plans go live. In the meantime, please contact
           the studio directly for any refund or cancellation questions. */}
-      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-white2 px-6 py-16 text-center md:px-10 md:py-24">
+      <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-line bg-white2 px-6 py-12 text-center md:px-10 md:py-16">
         <p className="font-serif text-3xl italic text-teal md:text-4xl">
           Our refund policy is being finalised.
         </p>
@@ -32,7 +32,7 @@ export default function RefundPolicyPage() {
         </p>
         <a
           href="/#contact"
-          className="mt-8 inline-flex h-11 items-center gap-2 rounded-full bg-teal px-5 text-sm font-medium text-white transition-colors hover:bg-teal/90"
+          className="mt-6 inline-flex h-11 items-center gap-2 rounded-full bg-teal px-5 text-sm font-medium text-white transition-colors hover:bg-teal/90"
         >
           Contact the studio
         </a>

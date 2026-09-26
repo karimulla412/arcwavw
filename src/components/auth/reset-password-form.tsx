@@ -82,10 +82,10 @@ function ResetFormInner() {
   }
 
   return (
-    <section className="relative min-h-[100svh] bg-paper px-4 py-10 sm:py-16">
+    <section className="relative min-h-[100svh] bg-paper px-4 py-10 sm:py-16 flex items-center justify-center">
       <div className="pointer-events-none absolute -left-20 top-10 h-72 w-72 rounded-full bg-lime/40 blur-[120px]" />
       <div className="pointer-events-none absolute -right-20 bottom-10 h-72 w-72 rounded-full bg-teal/10 blur-[120px]" />
-      <div className="relative mx-auto flex max-w-md flex-col gap-6">
+      <div className="relative mx-auto flex w-full max-w-md flex-col gap-6">
         <Link
           href="/login"
           className="inline-flex items-center gap-1.5 text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground hover:text-teal"

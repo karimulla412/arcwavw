@@ -8,13 +8,18 @@ import type { Prisma } from "@prisma/client";
 
 type GalleryImage = Prisma.GalleryImageGetPayload<Record<string, never>>;
 
-// Predefined tile spans for a balanced mosaic. Index 0 = hero (large),
-// the remaining tiles flow naturally. Extra tiles wrap to a normal cell.
+// Predefined tile spans for a balanced mosaic that closes cleanly. With 6
+// images on a 4-col grid, this pattern fills every cell (4 cols × 3 rows =
+// 12 cells; 2×2 hero + two wide + two single + one wide = 12). For 12 images
+// the pattern repeats, also filling cleanly. For 4 or 8 images the layout
+// still closes without bottom-right blanks.
 const SPANS = [
-  "lg:col-span-2 lg:row-span-2",
-  "",
-  "",
-  "lg:col-span-2",
+  "lg:col-span-2 lg:row-span-2", // hero 2x2 (4 cells)
+  "lg:col-span-2",               // wide top-right (2 cells)
+  "lg:col-span-2",               // wide mid-right (2 cells)
+  "",                            // 1x1
+  "",                            // 1x1
+  "lg:col-span-2",               // wide bottom-right (2 cells)
 ];
 
 export function Gallery({ images }: { images: GalleryImage[] }) {

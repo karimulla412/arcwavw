@@ -1,0 +1,3 @@
+{
+  "/api/memberships/lock-slots/route": "app/api/memberships/lock-slots/route.js"
+}

@@ -1,0 +1,3 @@
+{
+  "/api/admin/memberships/create/route": "app/api/admin/memberships/create/route.js"
+}

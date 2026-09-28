@@ -46,9 +46,9 @@ export function Hero({
         <div className="noise-overlay pointer-events-none absolute inset-0 opacity-25 mix-blend-overlay" />
 
         {/* Navbar — mobile: glass pill (logo + hamburger) / desktop: full-width glass bar */}
-        <nav className="absolute left-0 top-0 z-30 w-full safe-pt">
+        <nav className="fixed top-3 left-3 right-3 md:top-6 md:left-6 md:right-6 z-50 safe-pt">
           {/* Desktop full-width glass bar */}
-          <div className="relative hidden overflow-hidden border-b border-white/20 bg-ink/25 shadow-lg shadow-ink/30 backdrop-blur-2xl backdrop-saturate-[1.8] md:block">
+          <div className="relative hidden overflow-hidden rounded-2xl md:rounded-[2rem] border border-white/20 bg-ink/75 shadow-lg shadow-ink/30 backdrop-blur-2xl backdrop-saturate-[1.8] md:block transition-colors">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/15 via-white/5 to-transparent" />
             <div className="pointer-events-none absolute inset-0 shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.25)]" />
             <div className="relative mx-auto flex max-w-[1400px] items-center justify-between px-8 py-3 lg:px-16">
@@ -89,9 +89,9 @@ export function Hero({
           </div>
 
           {/* Mobile centered glass pill */}
-          <div className="relative mx-auto flex w-full max-w-3xl items-center justify-between overflow-hidden rounded-b-2xl border border-white/25 bg-ink/25 px-4 py-2.5 shadow-lg shadow-ink/30 backdrop-blur-2xl backdrop-saturate-[1.8] md:hidden">
+          <div className="relative mx-auto flex w-full max-w-3xl items-center justify-between overflow-hidden rounded-2xl border border-white/25 bg-ink/75 px-4 py-2.5 shadow-lg shadow-ink/30 backdrop-blur-2xl backdrop-saturate-[1.8] md:hidden transition-colors">
             <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/20 via-white/5 to-transparent" />
-            <div className="pointer-events-none absolute inset-0 rounded-b-2xl shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.25)]" />
+            <div className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_1px_1px_0_rgba(255,255,255,0.25)]" />
             {/* Logo */}
             <a href="#top" className="relative flex shrink-0 items-center">
               <img

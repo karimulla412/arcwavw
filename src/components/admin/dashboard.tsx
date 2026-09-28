@@ -41,11 +41,13 @@ import { formatINR } from "@/lib/site";
 import { BlogPanel } from "@/components/admin/blog-panel";
 import { GalleryPanel } from "@/components/admin/gallery-panel";
 import { FaqPanel } from "@/components/admin/faq-panel";
+import { UsersPanel } from "@/components/admin/users-panel";
 import {
   LayoutDashboard,
   Tag,
   CalendarClock,
   Users,
+  User as UserIcon,
   Settings as SettingsIcon,
   LogOut,
   Plus,
@@ -167,6 +169,7 @@ export function AdminDashboard() {
     galleryImages: GalleryImage[];
     faqs: FaqEntry[];
     reviews: Review[];
+    users: any[];
     analytics: Analytics;
     settings: Record<string, string>;
   } | null>(null);
@@ -264,6 +267,7 @@ export function AdminDashboard() {
           <TabsList className="hidden h-auto w-full gap-1 overflow-x-auto rounded-2xl bg-muted p-1.5 md:flex md:flex-wrap md:overflow-visible">
             <TabTrigger value="pricing" icon={Tag} label="Pricing" />
             <TabTrigger value="bookings" icon={CalendarClock} label="Bookings" />
+            <TabTrigger value="users" icon={UserIcon} label="Users" />
             <TabTrigger value="schedule" icon={Users} label="Schedule" />
             <TabTrigger value="memberships" icon={Users} label="Memberships" />
             <TabTrigger value="trainers" icon={Dumbbell} label="Trainers" />
@@ -321,6 +325,9 @@ export function AdminDashboard() {
           </TabsContent>
           <TabsContent value="bookings" className="mt-6">
             <BookingsPanel bookings={data.bookings} reload={reload} />
+          </TabsContent>
+          <TabsContent value="users" className="mt-6">
+            <UsersPanel users={data.users} reload={reload} />
           </TabsContent>
           <TabsContent value="schedule" className="mt-6">
             <SchedulePanel slots={data.slots} trainers={data.trainers} reload={reload} />

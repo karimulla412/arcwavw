@@ -108,6 +108,7 @@ export async function GET() {
     galleryImages,
     faqs,
     reviews,
+    users,
     analytics,
   ] = await Promise.all([
     db.pricingPlan.findMany({ orderBy: [{ sortOrder: "asc" }, { price: "asc" }] }),
@@ -143,6 +144,10 @@ export async function GET() {
     db.review.findMany({
       orderBy: [{ createdAt: "desc" }],
     }),
+    db.user.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 1000,
+    }),
     computeAnalytics(now),
   ]);
   const settings: Record<string, string> = {};
@@ -162,6 +167,7 @@ export async function GET() {
     galleryImages,
     faqs,
     reviews,
+    users,
     analytics,
   });
 }

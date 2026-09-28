@@ -18,6 +18,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { useToast } from "@/hooks/use-toast";
 
 const DAY_SHORT = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -271,179 +272,133 @@ export function BookPage({
   }
 
   return (
-    <div className="mx-auto min-h-screen max-w-[1400px] bg-paper relative pb-20">
-      {/* Trial-used banner — shown when user already used their free trial and has no active membership */}
+    <div className="mx-auto min-h-screen max-w-[1400px] bg-paper relative pb-24 md:pb-12">
+      {/* Trial-used banner */}
       {hasUsedTrial && !membership && (
-        <div className="mx-5 mt-4 rounded-2xl bg-lime p-4 text-ink">
+        <div className="mx-5 mt-6 rounded-xl bg-lime p-4 text-ink md:mx-10">
           <p className="text-sm font-medium">
             You&apos;ve used your free trial. Get a membership to continue booking.
           </p>
-          <a
-            href="/plans"
-            className="mt-2 inline-flex items-center gap-1 text-sm font-semibold text-teal underline"
-          >
+          <a href="/plans" className="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-teal hover:underline">
             View plans <ArrowUpRight className="h-3.5 w-3.5" />
           </a>
         </div>
       )}
 
-      {/* Top Header */}
-      <div className="flex items-center justify-between p-5 pb-3">
-        <div>
-          <p className="text-xs uppercase tracking-widest text-muted-foreground">YOUR WEEK</p>
-          <p className="mt-1 text-lg font-bold text-ink">{selectedDayLabel}</p>
-        </div>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setWeekOffset((w) => Math.max(0, w - 1))}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white2 shadow-sm hover:bg-muted"
-          >
-            <ChevronLeft className="h-5 w-5 text-ink" />
-          </button>
-          <button
-            onClick={() => setWeekOffset((w) => w + 1)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-white2 shadow-sm hover:bg-muted"
-          >
-            <ChevronRight className="h-5 w-5 text-ink" />
-          </button>
-        </div>
-      </div>
-
-      {/* Week Date Selector */}
-      <div className="flex gap-3 px-5 pb-4">
-        {weekDays.map((d) => {
-          const iso = toISO(d);
-          const isSelected = iso === selectedDate;
-          const isToday = toISO(new Date()) === iso;
-          const sessionCount = getSessionCount(iso);
-          const dow = d.getDay();
-
-          return (
-            <button
-              key={iso}
-              onClick={() => setSelectedDate(iso)}
-              className={`flex flex-1 flex-col items-center rounded-2xl p-3 shadow-sm transition-all cursor-pointer ${
-                isSelected
-                  ? "bg-ink text-white"
-                  : "bg-white2 text-ink hover:bg-paper"
-              }`}
-            >
-              <p className={`text-xs font-medium uppercase tracking-wider ${isSelected ? "text-white/70" : "text-muted-foreground"}`}>
-                {isToday ? "TODAY" : DAY_SHORT[dow]}
-              </p>
-              <p className="mt-1 text-2xl font-bold">{d.getDate()}</p>
-              <p className={`mt-0.5 text-[10px] ${isSelected ? "text-white/60" : "text-muted-foreground"}`}>
-                {sessionCount > 0 ? `${sessionCount} sessions` : "Quiet"}
-              </p>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Status badge */}
-      {user && membership && (
-        <div className="px-5 pb-3">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-teal/10 px-3 py-1.5 text-xs font-medium text-teal">
-            <Check className="h-3.5 w-3.5" />
-            Active member · {remainingCredits} credits remaining
+      {/* Main Professional Layout */}
+      <div className="flex flex-col gap-8 p-5 md:p-10 lg:flex-row lg:items-start lg:gap-12">
+        
+        {/* Left Column: Calendar & Filters */}
+        <div className="w-full shrink-0 lg:sticky lg:top-8 lg:w-[360px] space-y-6">
+          <div className="rounded-2xl bg-white2 p-5 shadow-sm">
+            <h2 className="text-lg font-bold text-ink mb-4">Select Date</h2>
+            <Calendar
+              mode="single"
+              selected={new Date(selectedDate + "T00:00:00")}
+              onSelect={(date) => {
+                if (date) setSelectedDate(toISO(date));
+              }}
+              className="mx-auto"
+            />
           </div>
-        </div>
-      )}
 
-      {/* Group / Private toggle */}
-      <div className="px-5 pb-3">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setSessionFilter("group")}
-            className={`flex-1 rounded-2xl p-3 text-center transition-all cursor-pointer ${
-              sessionFilter === "group"
-                ? "bg-ink text-white"
-                : "bg-white2 text-ink hover:bg-paper"
-            }`}
-          >
-            <p className={`text-xs font-semibold uppercase tracking-wider ${sessionFilter === "group" ? "text-white/70" : "text-muted-foreground"}`}>Group</p>
-            <p className={`mt-1 text-sm font-medium ${sessionFilter === "group" ? "text-white" : "text-ink"}`}>Up to 4 members</p>
-          </button>
-          <button
-            onClick={() => setSessionFilter("private")}
-            className={`flex-1 rounded-2xl p-3 text-center transition-all cursor-pointer ${
-              sessionFilter === "private"
-                ? "bg-ink text-white"
-                : "bg-white2 text-ink hover:bg-paper"
-            }`}
-          >
-            <p className={`text-xs font-semibold uppercase tracking-wider ${sessionFilter === "private" ? "text-white/70" : "text-muted-foreground"}`}>Private</p>
-            <p className={`mt-1 text-sm font-medium ${sessionFilter === "private" ? "text-white" : "text-ink"}`}>1-on-1 session</p>
-          </button>
+          <div className="rounded-2xl bg-white2 p-5 shadow-sm space-y-4">
+            <h2 className="text-lg font-bold text-ink">Session Type</h2>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setSessionFilter("group")}
+                className={`flex-1 rounded-xl p-3 text-center transition-all cursor-pointer ${
+                  sessionFilter === "group"
+                    ? "bg-ink text-white shadow-md"
+                    : "bg-paper text-ink hover:bg-muted"
+                }`}
+              >
+                <p className="text-sm font-bold uppercase tracking-wider">Group</p>
+                <p className="mt-0.5 text-xs opacity-70">Up to 4 members</p>
+              </button>
+              <button
+                onClick={() => setSessionFilter("private")}
+                className={`flex-1 rounded-xl p-3 text-center transition-all cursor-pointer ${
+                  sessionFilter === "private"
+                    ? "bg-ink text-white shadow-md"
+                    : "bg-paper text-ink hover:bg-muted"
+                }`}
+              >
+                <p className="text-sm font-bold uppercase tracking-wider">Private</p>
+                <p className="mt-0.5 text-xs opacity-70">1-on-1 session</p>
+              </button>
+            </div>
+          </div>
+
+          {user && membership && (
+            <div className="rounded-2xl bg-teal/10 p-5 text-teal border border-teal/20">
+              <div className="flex items-center gap-2">
+                <Check className="h-5 w-5" />
+                <p className="font-semibold text-lg">Active Member</p>
+              </div>
+              <p className="mt-1 text-sm">{remainingCredits} credits remaining</p>
+            </div>
+          )}
+        </div>
+
+        {/* Right Column: Sessions Schedule */}
+        <div className="flex-1 space-y-8">
+          <div className="flex items-end justify-between border-b border-line pb-4">
+            <div>
+              <h1 className="text-3xl font-bold text-ink">{selectedDayLabel}</h1>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {availableSlots.length > 0 ? `Showing ${filteredSlots.length} available sessions` : "Checking schedule..."}
+              </p>
+            </div>
+          </div>
+
+          {loadingSlots ? (
+            <div className="flex flex-col items-center justify-center py-20">
+              <div className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-teal" />
+              <p className="mt-3 text-sm text-muted-foreground">Loading sessions…</p>
+            </div>
+          ) : filteredSlots.length === 0 ? (
+            <div className="flex flex-col items-center justify-center rounded-3xl border border-dashed border-line py-24 text-center">
+              <CalendarDays className="h-12 w-12 text-muted-foreground opacity-50" />
+              <p className="mt-4 text-lg font-medium text-ink">No {sessionFilter} sessions</p>
+              <p className="mt-1 text-sm text-muted-foreground">Try selecting a different date or session type.</p>
+            </div>
+          ) : (
+            <div className="space-y-10">
+              {morningSlots.length > 0 && (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Morning</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {morningSlots.map((s) => (
+                      <SessionCard key={s.id} slot={s} isMember={!!(user && membership)} onSelect={() => { setPickedSlot(s); setShowConfirm(true); }} />
+                    ))}
+                  </div>
+                </div>
+              )}
+              {afternoonSlots.length > 0 && (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Afternoon</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {afternoonSlots.map((s) => (
+                      <SessionCard key={s.id} slot={s} isMember={!!(user && membership)} onSelect={() => { setPickedSlot(s); setShowConfirm(true); }} />
+                    ))}
+                  </div>
+                </div>
+              )}
+              {eveningSlots.length > 0 && (
+                <div className="space-y-4">
+                  <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">Evening</h3>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    {eveningSlots.map((s) => (
+                      <SessionCard key={s.id} slot={s} isMember={!!(user && membership)} onSelect={() => { setPickedSlot(s); setShowConfirm(true); }} />
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
-
-      {/* Loading state */}
-      {loadingSlots ? (
-        <div className="flex flex-col items-center justify-center py-20">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-line border-t-teal" />
-          <p className="mt-3 text-sm text-muted-foreground">Loading sessions…</p>
-        </div>
-      ) : availableSlots.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-20 px-5 text-center">
-          <CalendarDays className="h-12 w-12 text-muted-foreground" />
-          <p className="mt-3 text-sm text-muted-foreground">No classes scheduled for this day.</p>
-          <p className="text-xs text-muted-foreground">Try selecting another date.</p>
-        </div>
-      ) : (
-        <div className="px-5">
-          {/* Morning sessions */}
-          {morningSlots.length > 0 && (
-            <>
-              <p className="mb-3 text-xs font-medium uppercase tracking-widest text-muted-foreground">MORNING</p>
-              <div className="grid gap-3 md:grid-cols-2">
-                {morningSlots.map((s) => (
-                  <SessionCard
-                    key={s.id}
-                    slot={s}
-                    isMember={!!(user && membership)}
-                    onSelect={() => { setPickedSlot(s); setShowConfirm(true); }}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-
-          {/* Afternoon sessions */}
-          {afternoonSlots.length > 0 && (
-            <>
-              <p className="mb-3 mt-5 text-xs font-medium uppercase tracking-widest text-muted-foreground">AFTERNOON</p>
-              <div className="grid gap-3 md:grid-cols-2">
-                {afternoonSlots.map((s) => (
-                  <SessionCard
-                    key={s.id}
-                    slot={s}
-                    isMember={!!(user && membership)}
-                    onSelect={() => { setPickedSlot(s); setShowConfirm(true); }}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-
-          {/* Evening sessions */}
-          {eveningSlots.length > 0 && (
-            <>
-              <p className="mb-3 mt-5 text-xs font-medium uppercase tracking-widest text-muted-foreground">EVENING</p>
-              <div className="grid gap-3 md:grid-cols-2">
-                {eveningSlots.map((s) => (
-                  <SessionCard
-                    key={s.id}
-                    slot={s}
-                    isMember={!!(user && membership)}
-                    onSelect={() => { setPickedSlot(s); setShowConfirm(true); }}
-                  />
-                ))}
-              </div>
-            </>
-          )}
-        </div>
-      )}
 
       {/* Bottom Navigation Bar */}
       <div className="fixed bottom-0 left-1/2 z-40 w-full max-w-[1400px] -translate-x-1/2 border-t border-line bg-white2">

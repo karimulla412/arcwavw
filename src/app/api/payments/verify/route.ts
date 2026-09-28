@@ -124,8 +124,8 @@ export async function POST(req: NextRequest) {
             0,
             prev.totalClasses + prev.bonusClasses - prev.usedClasses
           );
-          const maxAllowed = plan.carryForward || 0;
-          carryForwardCount = maxAllowed > 0 ? Math.min(unused, maxAllowed) : 0;
+          const maxAllowed = 999; // Unlimited carry forward as requested
+          carryForwardCount = unused > 0 ? unused : 0;
           if (carryForwardCount > 0) {
             previousMembershipId = prev.id;
           }

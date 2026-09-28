@@ -400,8 +400,8 @@ export function BookPage({
         </div>
       </div>
 
-      {/* Bottom Navigation Bar */}
-      <div className="fixed bottom-0 left-1/2 z-40 w-full max-w-[1400px] -translate-x-1/2 border-t border-line bg-white2">
+      {/* Bottom Navigation Bar (Mobile only) */}
+      <div className="md:hidden fixed bottom-0 left-1/2 z-40 w-full max-w-[1400px] -translate-x-1/2 border-t border-line bg-white2">
         <div className="flex items-center justify-around px-2 py-2">
           <NavItem icon={Home} label="Home" href="/" />
           <NavItem icon={CalendarDays} label="Sessions" href="/book" active />

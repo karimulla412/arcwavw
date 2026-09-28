@@ -143,7 +143,7 @@ export function Hero({
                     onClick={() => setMenuOpen(false)}
                     className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-lime px-4 text-sm font-semibold uppercase tracking-[0.15em] text-ink transition-colors hover:bg-lime/90"
                   >
-                    Book a session
+                    Book a Trial Session
                     <ArrowUpRight className="h-3.5 w-3.5" />
                   </a>
                 </div>

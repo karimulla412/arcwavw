@@ -85,6 +85,25 @@ export async function POST(req: NextRequest) {
       // ignore — memberships can exist without a linked user
     }
 
+    let carryForwardCount = 0;
+    try {
+      const prev = await db.membership.findFirst({
+        where: { phone, status: { in: ["active", "expired"] } },
+        orderBy: { createdAt: "desc" }
+      });
+      if (prev) {
+        const unused = Math.max(0, prev.totalClasses + prev.bonusClasses - prev.usedClasses);
+        carryForwardCount = unused;
+        
+        if (carryForwardCount > 0) {
+          await db.membership.update({
+            where: { id: prev.id },
+            data: { status: "expired" }
+          });
+        }
+      }
+    } catch {}
+
     const membership = await db.membership.create({
       data: {
         name,
@@ -98,11 +117,11 @@ export async function POST(req: NextRequest) {
         classesPerWeek: Number(plan.classesPerWeek) || 0,
         totalClasses: Number(plan.totalClasses) || 0,
         usedClasses: 0,
-        bonusClasses: Number(plan.bonusClasses) || 0,
-        carryForward: Number(plan.carryForward) || 0,
+        bonusClasses: (Number(plan.bonusClasses) || 0) + carryForwardCount,
+        carryForward: 999, // unlimited carry forward
         lockedDates: "[]",
         status: "active",
-        notes: "Created manually from admin",
+        notes: carryForwardCount > 0 ? `Created manually from admin. Carried forward ${carryForwardCount} sessions.` : "Created manually from admin",
       },
     });
 

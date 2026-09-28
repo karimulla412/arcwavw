@@ -339,7 +339,7 @@ export function MemberDashboard({
                       <span className="text-sm text-paper/60">of {totalAllowed} remaining</span>
                     </div>
                     <p className="mt-2 text-xs text-paper/70">
-                      {used} booked · {remaining} available
+                      {used} booked · {remaining} available · Expires {fmtDate(activeMembership.endDate)}
                     </p>
                     {/* Progress bar */}
                     <div className="mt-3 h-2 w-full rounded-full bg-paper/10">
@@ -350,6 +350,14 @@ export function MemberDashboard({
                         +{carryForwardCount} carried forward
                       </p>
                     )}
+                  </>
+                ) : trialBookings.length === 0 ? (
+                  <>
+                    <div className="mt-4 flex items-baseline gap-2">
+                      <span className="text-4xl font-bold leading-none text-teal">1</span>
+                      <span className="text-sm text-paper/60">Free Trial</span>
+                    </div>
+                    <p className="mt-2 text-xs text-paper/60">You have 1 free trial session available.</p>
                   </>
                 ) : (
                   <>

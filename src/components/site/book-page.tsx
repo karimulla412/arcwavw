@@ -263,7 +263,7 @@ export function BookPage({
             disabled={booking}
             className="mt-6 flex h-12 w-full items-center justify-center gap-2 rounded-full bg-ink text-sm font-semibold text-white hover:opacity-90 disabled:opacity-50"
           >
-            {booking ? "Booking…" : "Confirm & Reserve"}
+            {booking ? "Booking…" : (membership ? "Confirm Booking" : "Confirm Free Trial")}
             {!booking && <ArrowUpRight className="h-4 w-4" />}
           </button>
         </div>
@@ -467,21 +467,14 @@ function SessionCard({
       <div className="mt-4 flex items-end justify-between">
         <div className="flex-1">
           <p className="text-sm text-muted-foreground">{isMember ? "1 credit" : "Pay at studio"}</p>
-          <p className="mt-0.5 text-sm font-medium text-ink">{slot.booked} of {slot.capacity} booked</p>
-          {/* Progress bar */}
-          <div className="mt-2 h-1.5 w-full rounded-full bg-muted">
-            <div
-              className={`h-full rounded-full ${isFull ? "bg-destructive" : "bg-teal"}`}
-              style={{ width: progressWidth }}
-            />
-          </div>
+          <p className="mt-0.5 text-sm font-medium text-ink">{slot.capacity - slot.booked} spots left</p>
         </div>
         {!isFull && (
           <button
             onClick={onSelect}
             className="ml-4 flex h-10 shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-ink px-5 text-xs font-semibold text-white hover:opacity-90"
           >
-            Reserve
+            {!isMember ? "Book Free Trial" : "Book"}
             <ArrowUpRight className="h-3.5 w-3.5" />
           </button>
         )}

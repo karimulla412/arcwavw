@@ -290,62 +290,36 @@ export function MemberDashboard({
         </div>
       </header>
 
-      <main className="relative mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          {/* ---------- Profile card (left col on desktop) ---------- */}
-          <aside className="lg:col-span-1">
-            <div className="rounded-2xl border border-line bg-white2 p-6">
-              <div className="flex items-center gap-2 text-teal">
-                <UserIcon className="h-4 w-4" />
-                <h2 className="text-base uppercase tracking-[0.15em]">Profile</h2>
-              </div>
-              <div className="mt-4 flex items-center gap-4">
-                <div className="flex h-14 w-14 items-center justify-center rounded-full bg-lime/60 text-xl text-teal">
-                  {user.name.charAt(0).toUpperCase()}
+      <main className="relative mx-auto max-w-4xl px-4 py-8 sm:px-6 sm:py-10">
+        <div className="flex flex-col gap-6">
+          
+          {/* Top row cards: Profile / Tracking */}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+            
+            {/* ---------- Profile card ---------- */}
+            <div className="rounded-2xl border border-line bg-white2 p-6 md:col-span-1 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center gap-2 text-teal">
+                  <UserIcon className="h-4 w-4" />
+                  <h2 className="text-base uppercase tracking-[0.15em]">Profile</h2>
                 </div>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-lg text-ink">{user.name}</p>
-                  <p className="truncate text-xs text-muted-foreground">
-                    {user.email}
-                  </p>
-                </div>
-              </div>
-              <dl className="mt-5 space-y-3 text-sm">
-                <div className="flex justify-between gap-3">
-                  <dt className="text-muted-foreground">Phone</dt>
-                  <dd className="text-right text-ink">{user.phone}</dd>
-                </div>
-                <div className="flex justify-between gap-3">
-                  <dt className="text-muted-foreground">Emergency contact</dt>
-                  <dd className="text-right text-ink">
-                    {user.emergencyContact || "—"}
-                  </dd>
-                </div>
-                {user.healthNotes && (
-                  <div>
-                    <dt className="mb-1 text-muted-foreground">Health notes</dt>
-                    <dd className="rounded-xl bg-paper p-3 text-xs text-ink">
-                      {user.healthNotes}
-                    </dd>
+                <div className="mt-4 flex items-center gap-4">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-lime/60 text-lg text-teal shrink-0">
+                    {user.name.charAt(0).toUpperCase()}
                   </div>
-                )}
-              </dl>
-              <Button
-                asChild
-                className="mt-6 h-10 w-full rounded-full bg-teal text-paper hover:bg-teal/90"
-              >
-                <Link href="/account/profile">
-                  Edit profile
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-semibold text-ink">{user.name}</p>
+                    <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                </div>
+              </div>
+              <Button asChild className="mt-6 w-full rounded-full bg-teal text-white hover:bg-teal/90">
+                <Link href="/account/profile">Edit profile <ArrowRight className="h-4 w-4" /></Link>
               </Button>
             </div>
-          </aside>
 
-          {/* ---------- Right column ---------- */}
-          <div className="space-y-6 lg:col-span-2">
-          {/* ---------- Two prominent tracking cards ---------- */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* ---------- Two prominent tracking cards ---------- */}
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:col-span-2">
             {/* Slots booked & remaining */}
             <div className="relative overflow-hidden rounded-2xl bg-ink p-6 text-paper">
               <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-paper/5 blur-3xl" />

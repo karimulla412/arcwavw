@@ -19,8 +19,8 @@ function readKey(envName: string): string {
   return (v || "").trim();
 }
 
-export const RAZORPAY_KEY_ID = readKey("RAZORPAY_KEY_ID");
-export const RAZORPAY_KEY_SECRET = readKey("RAZORPAY_KEY_SECRET");
+export const RAZORPAY_KEY_ID = readKey("RAZORPAY_KEY_ID") || "rzp_live_ThN7YP6aqRTWr5";
+export const RAZORPAY_KEY_SECRET = readKey("RAZORPAY_KEY_SECRET") || "gipGjHsju5c7cEg2YM6uY4i7";
 export const RAZORPAY_WEBHOOK_SECRET = readKey("RAZORPAY_WEBHOOK_SECRET");
 
 /** True only when both Key ID and Key Secret are present. */

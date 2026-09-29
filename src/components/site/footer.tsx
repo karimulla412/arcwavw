@@ -27,7 +27,7 @@ export function Footer({
               <img
                 src="/images/arcwave-01.png"
                 alt="Arcwave Pilates"
-                className="h-14 w-14 rounded-full object-cover"
+                className="h-20 w-auto object-contain"
               />
             </div>
             <p className="mt-4 font-serif text-lg italic text-teal">

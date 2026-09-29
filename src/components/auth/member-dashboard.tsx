@@ -270,7 +270,14 @@ export function MemberDashboard({
               </h1>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              asChild
+              variant="outline"
+              className="rounded-full border-line bg-paper text-ink hover:bg-muted"
+            >
+              <Link href="/">Back to home</Link>
+            </Button>
             <Button
               asChild
               variant="outline"

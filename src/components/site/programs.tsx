@@ -2,38 +2,19 @@ import { WordsPullUpMultiStyle } from "@/components/anim/words-pull-up-multi";
 
 const PROGRAMS = [
   {
-    title: "Beginner Pilates",
-    desc: "New to Pilates? Our beginner sessions introduce you to the fundamental principles, breathing techniques, alignment, and basic movements of Pilates in a safe and supportive environment.",
+    title: "Reformer Pilates",
+    tagline: "Strength. Sculpt. Flow.",
+    desc: "Take your Pilates practice to the next level with the Reformer. Using controlled resistance and fluid movement, Reformer Pilates builds deep core strength, improves posture, enhances flexibility, and leaves you feeling stronger and more balanced.",
   },
   {
-    title: "Intermediate & Advanced Pilates",
-    desc: "For those with prior Pilates experience, our intermediate and advanced sessions offer more challenging exercises, progressions, and sequences designed to build strength, control, endurance, balance, and body awareness.",
+    title: "Tower Pilates",
+    tagline: "Move deeper. Feel stronger.",
+    desc: "Tower Pilates blends classic Pilates principles with springs, bars, and straps to create a dynamic full-body workout. Improve mobility, stability, strength, and body awareness through precise, mindful movement.",
   },
   {
-    title: "Pilates for All Ages",
-    desc: "Pilates can be adapted to suit different ages, abilities, and fitness levels. Our sessions focus on safe, effective movement while helping you maintain strength, mobility, flexibility, and overall physical well-being.",
-  },
-  {
-    title: "Classical Pilates",
-    desc: "Experience the traditional Pilates method through the original principles and exercise repertoire developed by Joseph Pilates. Classical Pilates emphasizes precision, control, concentration, breathing, and a structured progression of exercises.",
-  },
-  {
-    title: "Contemporary Pilates",
-    desc: "Our contemporary approach combines the foundational principles of Pilates with modern movement science and exercise techniques. Sessions can be adapted to individual needs, goals, movement patterns, and physical abilities.",
-  },
-  {
-    title: "Pre-Natal Pilates",
-    desc: "Our pre-natal Pilates sessions are designed to support women throughout pregnancy, with appropriately modified exercises that focus on maintaining strength, mobility, posture, breathing, and body awareness.",
-    note: "Pre-natal exercise should be undertaken with appropriate medical clearance and professional guidance.",
-  },
-  {
-    title: "Post-Natal Pilates",
-    desc: "Post-natal Pilates focuses on gradually rebuilding strength, mobility, stability, posture, and confidence following childbirth. Exercises can be individually modified according to your stage of recovery and specific needs.",
-    note: "Post-natal exercise should be undertaken with appropriate medical clearance, particularly following complications or surgery.",
-  },
-  {
-    title: "Rehabilitation Pilates",
-    desc: "Our rehabilitation-focused Pilates sessions use controlled, mindful movement to support recovery and improve strength, mobility, stability, posture, and movement quality. Sessions are tailored to the individual's condition, abilities, and recovery goals.",
+    title: "Chair Pilates",
+    tagline: "Challenge your strength. Find your balance.",
+    desc: "Chair Pilates delivers a powerful workout in a compact format. Designed to challenge your core, legs, arms, and stability, it builds functional strength, coordination, and confidence in every movement.",
   },
 ];
 
@@ -82,7 +63,7 @@ export function Programs() {
         </div>
 
         {/* Program cards grid */}
-        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid grid-cols-1 gap-4 md:grid-cols-3">
           {PROGRAMS.map((p, i) => (
             <article
               key={i}
@@ -92,14 +73,12 @@ export function Programs() {
                 {String(i + 1).padStart(2, "0")}
               </span>
               <h3 className="mt-4 text-lg font-medium text-ink">{p.title}</h3>
+              <p className="mt-1 text-xs font-semibold uppercase tracking-[0.15em] text-teal">
+                {p.tagline}
+              </p>
               <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground">
                 {p.desc}
               </p>
-              {p.note && (
-                <p className="mt-3 rounded-lg bg-muted/60 px-3 py-2 text-[11px] leading-relaxed text-muted-foreground/80">
-                  {p.note}
-                </p>
-              )}
             </article>
           ))}
         </div>

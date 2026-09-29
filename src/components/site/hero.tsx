@@ -7,11 +7,11 @@ import { WordsPullUp } from "@/components/anim/words-pull-up";
 import { useBookingStore } from "@/lib/booking-store";
 
 const NAV = [
-  { label: "Our story", href: "#about" },
-  { label: "The studio", href: "#studio" },
-  { label: "Pilates", href: "#programs" },
-  { label: "Certifications", href: "#certifications" },
-  { label: "Membership", href: "#pricing" },
+  { label: "Our story", href: "/#our-story" },
+  { label: "The studio", href: "/about" },
+  { label: "Pilates", href: "/#programs" },
+  { label: "Certifications", href: "/certifications" },
+  { label: "Membership", href: "/plans" },
 ];
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -31,8 +31,8 @@ export function Hero({
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <section className="min-h-[100svh] w-full p-3 relative md:min-h-screen md:p-6">
-      <div className="relative h-full min-h-[100svh] w-full overflow-hidden rounded-2xl bg-ink md:rounded-[2rem]">
+    <section className="h-[100svh] w-full p-3 relative md:h-screen md:p-6">
+      <div className="relative h-full w-full overflow-hidden rounded-2xl bg-ink md:rounded-[2rem]">
         {/* Background image — the Cadillac photo */}
         <img
           src="/images/landing-hero.jpg"
@@ -40,10 +40,10 @@ export function Hero({
           className="absolute inset-0 h-full w-full object-cover"
         />
         {/* Dark gradient overlays for text readability */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/30 to-ink/85" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink/70 via-ink/20 to-ink/40" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-ink/40 via-transparent to-ink/80" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-ink/50 via-transparent to-transparent" />
         {/* Subtle noise texture */}
-        <div className="noise-overlay pointer-events-none absolute inset-0 opacity-25 mix-blend-overlay" />
+        <div className="noise-overlay pointer-events-none absolute inset-0 opacity-15 mix-blend-overlay" />
 
         {/* Navbar — mobile: glass pill (logo + hamburger) / desktop: full-width glass bar */}
         <nav className="fixed top-3 left-3 right-3 md:top-6 md:left-6 md:right-6 z-50 safe-pt">
@@ -57,11 +57,8 @@ export function Hero({
                 <img
                   src="/images/arcwave-01.png"
                   alt="Arcwave Pilates"
-                  className="h-10 w-10 rounded-full object-cover"
+                  className="h-16 w-auto object-contain"
                 />
-                <span className="text-sm font-semibold uppercase tracking-[0.25em] text-paper">
-                  Arcwave Pilates
-                </span>
               </a>
               {/* Links center */}
               <div className="flex items-center gap-8 lg:gap-12">
@@ -97,7 +94,7 @@ export function Hero({
               <img
                 src="/images/arcwave-01.png"
                 alt="Arcwave Pilates"
-                className="h-9 w-9 rounded-full object-cover"
+                className="h-10 w-auto object-contain"
               />
             </a>
             {/* Mobile hamburger */}
